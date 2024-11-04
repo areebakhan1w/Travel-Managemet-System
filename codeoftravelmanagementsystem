@@ -1,0 +1,421 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <windows.h>
+using namespace std;
+void menu();
+
+class ManageMenu {
+protected:
+    std::string userName;
+
+public:
+    ManageMenu() {
+        std::cout << "\n\n\n\n\n\n\n\t Enter your name to continue as Admin: ";
+        std::cin >> userName;
+        system("CLS");
+        menu();
+    }
+
+    ~ManageMenu() {}
+};
+
+class Customers {
+public:
+    std::string name, gender, address;
+    int age, mobileNo;
+    static int cusID;
+    char all[999];
+
+    void getDetails() {
+        std::ofstream out("old-customer.txt", std::ios::app);
+        {
+            std::cout << "Enter Customer ID: ";
+            std::cin >> cusID;
+            std::cout << "Enter your Name: ";
+            std::cin >> name;
+            std::cout << "Enter your Age: ";
+            std::cin >> age;
+            std::cout << "Enter your Mobile Number: ";
+            std::cin >> mobileNo;
+            std::cout << "Enter your Address: ";
+            std::cin >> address;
+            std::cout << "Enter your Gender: ";
+            std::cin >> gender;
+        }
+
+        out << "\nCustomer ID: " << cusID << "\nName: " << name << "\nAge: " << age << "\nMobile Number: " << mobileNo
+            << "\nAddress: " << address << "\nGender: " << gender << std::endl;
+        out.close();
+        std::cout << "\nSAVED \nNOTE: We save your details record for future purposes\n" << std::endl;
+    }
+
+    void showDetails() {
+        std::ifstream in("old-customer.txt");
+        if (in) {
+            while (!in.eof()) {
+                in.getline(all, 999);
+                std::cout << all << std::endl;
+            }
+            in.close();
+        } else {
+            std::cout << "File Error!" << std::endl;
+        }
+    }
+};
+
+int Customers::cusID;
+
+class Cabs {
+public:
+    int cabChoice;
+    int kilometers;
+    float cabCost;
+    static float lastCabCost;
+
+    void cabDetails() {
+        std::cout << " We collaborate with the fastest, safest, and smarter cab service around the country" << std::endl;
+        std::cout << "----------------ABC Cabs-----------------\n" << std::endl;
+        std::cout << "1. Rent a Standard Cab - Rs.15 for 1KM" << std::endl;
+        std::cout << "2. Rent a luxury Cab - Rs.25 per 1KM" << std::endl;
+
+        std::cout << "\nTo calculate the cost for your journey:" << std::endl;
+        std::cout << "Enter which kind of cab you need: ";
+        std::cin >> cabChoice;
+        std::cout << "Enter kilometers you have to travel: ";
+        std::cin >> kilometers;
+
+        int hireCab;
+
+        if (cabChoice == 1) {
+            cabCost = kilometers * 15;
+            std::cout << "\nYour tour cost " << cabCost << " rupees for a standard cab" << std::endl;
+            std::cout << "Press 1 to hire this cab or ";
+            std::cout << "Press 2 to select another cab: ";
+            std::cin >> hireCab;
+
+            system("CLS");
+
+            if (hireCab == 1) {
+                lastCabCost = cabCost;
+                std::cout << "\nYou have successfully hired a standard cab" << std::endl;
+                std::cout << "Go to Menu and take the receipt" << std::endl;
+
+            } else if (hireCab == 2) {
+                cabDetails();
+            } else {
+                std::cout << "Invalid Input! Redirecting to the previous menu \nPlease Wait!" << std::endl;
+                Sleep(999);
+                system("CLS");
+                cabDetails();
+            }
+
+        } else if (cabChoice == 2) {
+            cabCost = kilometers * 25;
+            std::cout << "\nYour tour cost " << cabCost << " rupees for a standard cab" << std::endl;
+            std::cout << "Press 1 to hire this cab or ";
+            std::cout << "Press 2 to select another cab: ";
+            std::cin >> hireCab;
+
+            system("CLS");
+
+            if (hireCab == 1) {
+                lastCabCost = cabCost;
+                std::cout << "\nYou have successfully hired a standard cab" << std::endl;
+                std::cout << "Go to Menu and take the receipt" << std::endl;
+
+            } else if (hireCab == 2) {
+                cabDetails();
+            } else {
+                std::cout << "Invalid Input! Redirecting to the previous menu \nPlease Wait!" << std::endl;
+                Sleep(1100);
+                system("CLS");
+                cabDetails();
+            }
+        } else {
+            std::cout << "Invalid Input! Redirecting to Previous Main Menu \nPlease Wait!" << std::endl;
+            Sleep(1100);
+            system("CLS");
+            menu();
+        }
+        std::cout << "\nPress 1 to Redirect Main menu: ";
+        std::cin >> hireCab;
+        system("CLS");
+        if (hireCab == 1) {
+            menu();
+
+        } else {
+            menu();
+        }
+    }
+};
+
+float Cabs::lastCabCost;
+
+class Booking {
+public:
+    int choiceHotel;
+    int packChoice;
+    static float hotelCost;
+
+    void hotels() {
+        std::string hotelNo[] = {"Avendra", "ChoiceYou", "ElephantBay"};
+        for (int a = 0; a < 3; a++) {
+            std::cout << (a + 1) << ". Hotels " << hotelNo[a] << std::endl;
+        }
+        std::cout << "\nCurrently, we collaborate with the above hotels!" << std::endl;
+        std::cout << "Press any key to back or Enter the number of the hotel you want to book: ";
+        std::cin >> choiceHotel;
+        system("CLS");
+        if (choiceHotel == 1) {
+            std::cout << "----------WELCOME TO HOTEL AVENDRA-----------\n" << std::endl;
+            std::cout << "The Garden, food and beverage. Enjoy all you can drink, Stay cool and get children in the summer sun. "
+                      << std::endl;
+            std::cout << "Package offered by Avendra:\n" << std::endl;
+            std::cout << "1. Standard Pack " << std::endl;
+            std::cout << "\tAll basic facilities you need just for: Rs.5000.00" << std::endl;
+            std::cout << "2. Premium Pack" << std::endl;
+            std::cout << "\tEnjoy Premium: Rs.10000.00" << std::endl;
+            std::cout << "3. Luxury Pack" << std::endl;
+            std::cout << "\tLive a luxury at Avendra: Rs.15000.00" << std::endl;
+
+            std::cout << "\nPress another key to back or\nEnter Package number you want to book: ";
+            std::cin >> packChoice;
+
+            if (packChoice == 1) {
+                hotelCost = 5000.00;
+                std::cout << "\nYou have successfully booked a standard package at Avendra" << std::endl;
+                std::cout << "Go to menu and take the receipt" << std::endl;
+
+            } else if (packChoice == 2) {
+                hotelCost = 10000.00;
+                std::cout << "\nYou have successfully booked a premium package at Avendra" << std::endl;
+                std::cout << "Go to menu and take the receipt" << std::endl;
+
+            } else if (packChoice == 3) {
+                hotelCost = 15000.00;
+                std::cout << "\nYou have successfully booked a luxury package at Avendra" << std::endl;
+                std::cout << "Go to menu and take the receipt" << std::endl;
+
+            } else {
+                std::cout << "Invalid input! Redirecting to the previous menu \nPlease Wait!" << std::endl;
+                Sleep(1100);
+                system("CLS");
+                hotels();
+            }
+
+            int goToMenu;
+            std::cout << "Press 1 to redirect to the main menu: ";
+            std::cin >> goToMenu;
+            system("CLS");
+            if (goToMenu == 1) {
+                menu();
+            } else {
+                menu();
+            }
+
+        } else if (choiceHotel == 3) {
+            std::cout << "Welcome to hotel ELEPHANTYBAY" << std::endl;
+            std::cout << "Set on the tropical gardens on the banks of the maha oya river while seeing elephant " << std::endl;
+            std::cout << "Amazing offer in this summer Rs. 5000.00 for one day" << std::endl;
+            std::cout << "Press another key to back or press 1 to book this offer: ";
+            std::cin >> packChoice;
+            if (packChoice == 1) {
+                hotelCost = 5000.00;
+                std::cout << "You have successfully booked Elephantybay special offer" << std::endl;
+                std::cout << "Go to menu and take the receipt" << std::endl;
+            } else {
+                std::cout << "Invalid input! Redirecting to the previous menu \nPlease Wait!" << std::endl;
+                Sleep(1100);
+                system("CLS");
+                hotels();
+            }
+
+            int goToMenu;
+            std::cout << "Press 1 to redirect to the main menu: ";
+            std::cin >> goToMenu;
+            system("CLS");
+            if (goToMenu == 1) {
+                menu();
+            } else {
+                menu();
+            }
+        } else {
+            std::cout << "Invalid input! Redirecting to Previous Main Menu \nPlease Wait!" << std::endl;
+            Sleep(1100);
+            system("CLS");
+            menu();
+        }
+    }
+};
+
+float Booking::hotelCost;
+
+class Charges : public Booking, public Cabs, public Customers {
+public:
+    void printBill() {
+        std::ofstream outf("receipt.txt");
+        if (outf) {
+            outf << "--------------ABC travel agency--------------" << std::endl;
+            outf << "....................Receipt...................." << std::endl;
+            outf << "" << std::endl;
+            outf << " Customer ID: " << Customers::cusID << std::endl << std::endl;
+            outf << " Description  \t \t Total " << std::endl;
+            outf << " Hotel cost \t \t" << std::fixed << std::setprecision(2) << Booking::hotelCost << std::endl;
+            outf << " Travel (cab) cost :\t " << std::fixed << std::setprecision(2) << Cabs::lastCabCost << std::endl;
+            outf << "_" << std::endl;
+            outf << " Total Charges ::\t" << std::fixed << std::setprecision(2)
+                 << Booking::hotelCost + Cabs::lastCabCost << std::endl;
+            outf << " ------------------------------------------------" << std::endl;
+            outf << " ---------------------Thank You-------------------" << std::endl;
+        } else {
+            std::cout << "File opening error!" << std::endl;
+        }
+        outf.close();
+    }
+
+    void showBill() {
+        std::ifstream inf("receipt.txt");
+        if (inf) {
+            std::string all;
+            while (std::getline(inf, all)) {
+                std::cout << all << std::endl;
+            }
+        } else {
+            std::cout << "File opening error!" << std::endl;
+        }
+        inf.close();
+    }
+};
+
+void menu() 
+    {
+   	 	int mainChoice;
+   	 	int inChoice;
+   	 	int gotoMenu;
+   	cout<<"\t\t              * ABC travels *\n"<<endl;
+   	cout<<" --------------------------------Main Menu--------------------------"<<endl;
+   	cout<<"\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"<<endl;
+   	cout<<"\t|\t\t\t\t\t\t|"<<endl;
+   	cout<<"\t|\tCustomer Management -> 1\t        |"<<endl;
+   	cout<<"\t|\tCabs Management     -> 2\t        |"<<endl;
+   	cout<<"\t|\tBooking Management  -> 3\t        |"<<endl;
+   	cout<<"\t|\tCharges and Bill    -> 4\t        |"<<endl;
+   	cout<<"\t|\tExit                -> 5\t        |"<<endl;
+   	cout<<"\t|\t\t\t\t\t\t|"<<endl;
+   	cout<<"\t|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|"<<endl;
+   	cout<<"\nEnter your choice"<<endl;
+   	cin>>mainChoice;
+   	system("CLS");
+   	Customers a2;
+   	Cabs a3;
+   	Booking a4;
+   	Charges a5;
+   	
+   	if( mainChoice==1)
+   	{
+   	cout<<"------Customers------\n"<<endl;
+   	cout<<" 1. Enter new customer"<<endl;
+   	cout<<" 2. See old customer"<<endl;
+   	cout<<"\nEnter choice "<<endl;
+   	cin>>inChoice;
+   	system("CLS");
+   	if (inChoice==1){
+   	a2.getDetails();
+   	 }
+   	 else if (inChoice==2){
+   	a2.showDetails();
+	    }
+	    else {
+	cout<<" Invalid input! redirecting to previous Menu \nPlease Wait  "<<endl;
+	Sleep(1100);
+	system("CLS");
+	menu();
+	    }
+   	 cout<<" \npress 1 to redirect main menu: "<<endl;
+   	 cin>>gotoMenu;
+   	 system("CLS");
+   	 if ( gotoMenu ==1){
+   	menu();
+	    }
+	    else {
+	menu();
+	    }
+	   }
+	   else if( mainChoice ==2){
+	   	
+	a3.cabDetails();
+	   }
+	   else if( mainChoice ==3)
+	   {
+    	cout<<"-----> Book a luxury hotel using system <-----"<<endl;
+    	a4.hotels();
+	   }
+	   else if( mainChoice ==4){
+	cout<<"------> Get your receipt --->"<<endl;
+	a5.printBill();
+                 cout<<" your receipt is already printed you can get it from file path"<<endl;
+                 cout<<" to display the your receipt in the screen :enter 1 or enter another key back to main menu"<<endl;
+                 cin>>gotoMenu;
+                 if(gotoMenu==1)
+                 {
+                 	system("CLS");
+                 	a5.showBill();
+                 	cout<<"\n press 1 to redirect main menu: "<<endl;
+                 	cin>>gotoMenu;
+                 	system("CLS");
+                 	if (gotoMenu ==1){
+                 	menu();
+	                 }
+	                 else {
+	menu();
+	   }
+}
+	   else{
+	system("CLS");
+	menu();
+	   }
+}
+                 
+                 else if ( mainChoice == 5)
+                 {
+                 	cout<<" <---------goodbye-----------> "<<endl;
+                 	Sleep(999);
+                 	system("CLS");
+                 	menu();
+                 }
+                 else {
+                 	cout<<" invalid input | redirecting to previous menu "<<endl;
+                 	Sleep(100);
+                 	system("CLS");
+                 	menu();
+                 	
+                 }
+    
+}
+
+int main() {
+	int password;
+string name;
+
+cout<<"\t\t\t\t\t\tTRAVEL MANAGEMENT SYSTEM"<<endl;
+cout<<"                                        "<<endl;
+cout<<"\t\t\t\t\t\tWELCOME TO OUR LOGIN PAGE"<<endl;
+cout<<"                                        "<<endl;
+
+cout<<"Enter your user name : "<<endl;
+cin>>name;
+cout<<"                                        "<<endl;
+cout<<"Enter your password : "<<endl;
+cin>>password;
+cout<<"                                        "<<endl;
+if(name =="areeba" && password ==1234)
+
+cout<<"\t\t\t\t\t\tLOGIN SUCCESSFULL"<<endl;
+else
+
+cout<<"\t\t\t\t\tINCORRECT PASSWORD OR USER NAME TRY AGAIN"<<endl;
+cout<<"\t\t\t\t\t\t\tTHANK YOU";
+    ManageMenu startObj;
+    return 0;
+}
